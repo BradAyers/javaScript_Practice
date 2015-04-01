@@ -9,32 +9,34 @@
     <script src="scripts/index.js"></script>
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
-    <div id="gameBoard">
-        <div class="gameBox active T"></div>
-        <div class="gameBox I"></div>
-        <div class="gameBox C"></div>
-        <div class="gameBox active T"></div>
-        <div class="gameBox A"></div>
-        <div class="gameBox C"></div>
-        <div class="gameBox active T"></div>
-        <div class="gameBox O"></div>
-        <div class="gameBox E"></div>
-    </div>
+    <div id="container">
+        <div id="gameConsole">GAME CONSOLE</div>
+        <div id="gameBoard">
+            <div class="gameBox active T"></div>
+            <div class="gameBox I"></div>
+            <div class="gameBox C"></div>
+            <div class="gameBox active T"></div>
+            <div class="gameBox A"></div>
+            <div class="gameBox C"></div>
+            <div class="gameBox active T"></div>
+            <div class="gameBox O"></div>
+            <div class="gameBox E"></div>
+        </div>
 
-    <script>
-        $( document).ready(function() {
-            var element = $('.gameBox');
-            element.on('click', function() {
-                if ($(this).hasClass('active')) {
-                    $(this).removeClass('active');
-                }
-                else {
-                    element.removeClass('active');
-                    $(this).addClass('active');
-                }
+        <script>
+            $( document).ready(function() {
+                var element = $('.gameBox');
+                element.on('click', function() {
+                    if ($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                    }
+                    else {
+                        element.removeClass('active');
+                        $(this).addClass('active');
+                    }
+                })
             })
-        })
-    </script>
+        </script>
+    </div>
 </body>
 </html>

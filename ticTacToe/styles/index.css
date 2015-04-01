@@ -1,3 +1,16 @@
+div#container {
+}
+
+div#gameConsole {
+    background: white;
+    width: 475px;
+    height: 50px;
+    margin: 40px auto;
+    border: 3px solid gray;
+    border-radius: 10px;
+    text-align: center;
+}
+
 /* gameBoard style */
 #gameBoard {
     background: black;
@@ -17,10 +30,6 @@
 
 .active {
     background: #CCCCCC;
-}
-
-.yPlayed {
-    background: #FF6600;
 }
 
 /* Image styles for alphabet letters */

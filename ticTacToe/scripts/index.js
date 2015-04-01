@@ -9,12 +9,12 @@ var board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
 var player1 = "Brad";
 var player2 = "Denise";
 var currPlayer = player1;
-var play = true;
 var piece = "X"
 
 function playGame() {
     do {
         // play game
+        var play = true; //initialize play to remain in loop until game over?
         var row = prompt("Pick your row " + currPlayer);
         var col = prompt("Pick your column " + currPlayer);
         console.log(col);
@@ -22,7 +22,7 @@ function playGame() {
         console.log(board[row]);
         if (winner()) {
             alert(piece + " wins the game! Congratulations " + currPlayer);
-            play = false;
+            play = false; // call playAgain() and return that value to play
             return play;
         }
         else {
@@ -34,7 +34,11 @@ function playGame() {
     } while (play)
 }
 
-function winner() {
+function pickSquare(name) { // Player picks square.  Confirm it's empty.  Update board object and place piece in square
+
+}
+
+function winner() { // Checks for winner
     if (testHor()) {return (testHor())};
     if (testVert()) {return (testVert())};
     if (testDiag()) {return (testDiag())};
