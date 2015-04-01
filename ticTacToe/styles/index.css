@@ -1,0 +1,53 @@
+/* gameBoard style */
+#gameBoard {
+    background: black;
+    width: 475px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* gameBox style */
+.gameBox {
+    background: white;
+    width: 150px;
+    height: 150px;
+    margin: 4px;
+    float: left;
+}
+
+.active {
+    background: #CCCCCC;
+}
+
+.yPlayed {
+    background: #FF6600;
+}
+
+/* Image styles for alphabet letters */
+.A {
+    content: url("../images/letterA.gif");
+}
+
+.C {
+    content: url("../images/letterC.gif");
+}
+
+.E {
+    content: url("../images/letterE.gif");
+}
+
+.I {
+    content: url("../images/letterI.gif");
+}
+
+.O {
+    content: url("../images/letterO.gif");
+}
+
+.T {
+    content: url("../images/letterT.gif");
+}
+
+.X {
+    content: url("../images/letterX.gif");
+}
