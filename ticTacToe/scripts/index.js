@@ -9,12 +9,12 @@ var board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
 var player1 = "Brad";
 var player2 = "Denise";
 var currPlayer = player1;
-var piece = "X"
+var piece = "X";
 
-function playGame() {
+function playGame(firstPlayer) { // Executes game play activities
+    var currPlayer = firstPlayer;
     do {
-        // play game
-        var play = true; //initialize play to remain in loop until game over?
+        pickSquare();
         var row = prompt("Pick your row " + currPlayer);
         var col = prompt("Pick your column " + currPlayer);
         console.log(col);
@@ -22,7 +22,8 @@ function playGame() {
         console.log(board[row]);
         if (winner()) {
             alert(piece + " wins the game! Congratulations " + currPlayer);
-            play = false; // call playAgain() and return that value to play
+            board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]}; //reset board. remove when included in playAgain()
+            play = false; // call playAgain(currPlayer) ,and return that value to play
             return play;
         }
         else {
@@ -30,6 +31,7 @@ function playGame() {
             // Change player and piece for next pick
             currPlayer = (currPlayer === "Brad") ? "Denise" : "Brad";
             piece = (currPlayer === "Brad") ? "X" : "O";
+            play = true;
         }
     } while (play)
 }
@@ -39,9 +41,9 @@ function pickSquare(name) { // Player picks square.  Confirm it's empty.  Update
 }
 
 function winner() { // Checks for winner
-    if (testHor()) {return (testHor())};
-    if (testVert()) {return (testVert())};
-    if (testDiag()) {return (testDiag())};
+    if (testHor()) {return (testHor())}
+    if (testVert()) {return (testVert())}
+    if (testDiag()) {return (testDiag())}
     return false;
 }
 
@@ -49,8 +51,6 @@ function winner() { // Checks for winner
 // FUNCTION TO TEST HORIZONTAL ROWS FOR A WINNER (MOSTLY TESTED, OTHER THAN RETURN)
 function testHor() {
     // Define winners
-    var xWins = ["X", "X", "X"];
-    var oWins = ["Y", "Y", "Y"];
     for (row = 1; row < 4; row++) {
         // var winner =_.isEqual(board.row[row], xWins) || board.row[row].isEqual(yWins);
         var winner = false; // remove after testing and reactivate line above that is currently commented out for testing
@@ -114,6 +114,28 @@ function testDiag() {
         gamePiece = "O"; // NOW LOOP AGAIN TO TEST FOR O WINNER
     }
     return winner;
+}
+
+function pickSquare() {
+    code to prompt player to pick square.
+    var mySquare = $('.square');
+    mySquare.on('click', function {
+        $(this).addClass('X');
+    })
+}
+
+function playButton(play) {
+    var display = $('#gameConsole');
+    display.animate({width: 200}, 5000);
+    $('h2').detach();
+    display.html('<h2>Play Again?</h2>');//need to find out why this is not displaying and how to delay when it does
+    //display.html('<h2>Play again?</h2>');
+    //    display.on('click', function() {
+    //        display.animate({
+    //            width: 475}, 500);
+    //        display.h2.fadeOut('slow');
+    //    })
+    //})
 }
 
 

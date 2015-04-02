@@ -1,14 +1,21 @@
 div#container {
 }
 
+/* Display styling */
 div#gameConsole {
-    background: white;
-    width: 475px;
-    height: 50px;
-    margin: 40px auto;
+    background: black;
+    width: 200px;
+    height: 30px;
+    margin: 30px auto;
     border: 3px solid gray;
     border-radius: 10px;
     text-align: center;
+}
+
+h1, h2, h3, h4 {
+    display: inline;
+    font-family: Arial, sans-serif;
+    color: white;
 }
 
 /* gameBoard style */
@@ -20,7 +27,7 @@ div#gameConsole {
 }
 
 /* gameBox style */
-.gameBox {
+.square {
     background: white;
     width: 150px;
     height: 150px;
@@ -29,7 +36,7 @@ div#gameConsole {
 }
 
 .active {
-    background: #CCCCCC;
+    background: gray;
 }
 
 /* Image styles for alphabet letters */

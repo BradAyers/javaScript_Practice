@@ -10,22 +10,22 @@
 </head>
 <body>
     <div id="container">
-        <div id="gameConsole">GAME CONSOLE</div>
+        <div id="gameConsole"></div>
         <div id="gameBoard">
-            <div class="gameBox active T"></div>
-            <div class="gameBox I"></div>
-            <div class="gameBox C"></div>
-            <div class="gameBox active T"></div>
-            <div class="gameBox A"></div>
-            <div class="gameBox C"></div>
-            <div class="gameBox active T"></div>
-            <div class="gameBox O"></div>
-            <div class="gameBox E"></div>
+            <div class="square active T"></div>
+            <div class="square I"></div>
+            <div class="square C"></div>
+            <div class="square active T"></div>
+            <div class="square A"></div>
+            <div class="square C"></div>
+            <div class="square active T"></div>
+            <div class="square O"></div>
+            <div class="square E"></div>
         </div>
 
         <script>
             $( document).ready(function() {
-                var element = $('.gameBox');
+                var element = $('.square');
                 element.on('click', function() {
                     if ($(this).hasClass('active')) {
                         $(this).removeClass('active');
@@ -35,6 +35,14 @@
                         $(this).addClass('active');
                     }
                 })
+                // Initialize display box as "Start Game" button.
+                var display = $('#gameConsole');
+                display.html('<h2>Start Game</h2>');
+                display.on('click', function() {
+                    display.animate({
+                        width: 475}, 500);
+                    playGame(player1)
+                    })
             })
         </script>
     </div>
