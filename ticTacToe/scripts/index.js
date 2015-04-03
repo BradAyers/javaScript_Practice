@@ -9,35 +9,36 @@ var board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
 var player1 = "Brad";
 var player2 = "Denise";
 var currPlayer = player1;
-var piece = "X";
 
 function playGame(firstPlayer) { // Executes game play activities
     var currPlayer = firstPlayer;
+    var piece = "X";
+    var play = true;
+    // Clear board for new game
+    board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
+    $('.square').addClass('emptyTile');
+    $('.square').removeClass('active');
+
     do {
-        pickSquare();
-        var row = prompt("Pick your row " + currPlayer);
-        var col = prompt("Pick your column " + currPlayer);
-        console.log(col);
-        board[row][col] = piece;
-        console.log(board[row]);
+        pickSquare(piece);
+//        var row = prompt("Pick your row " + currPlayer);
+//        var col = prompt("Pick your column " + currPlayer);
+//        console.log(col);
+//        board[row][col] = piece;
+//        console.log(board[row]);
         if (winner()) {
             alert(piece + " wins the game! Congratulations " + currPlayer);
-            board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]}; //reset board. remove when included in playAgain()
-            play = false; // call playAgain(currPlayer) ,and return that value to play
-            return play;
+            play = false;
+            playAgain(currPlayer);
         }
         else {
-            alert("No winner yet " + currPlayer);
+//            alert("No winner yet " + currPlayer);
             // Change player and piece for next pick
             currPlayer = (currPlayer === "Brad") ? "Denise" : "Brad";
             piece = (currPlayer === "Brad") ? "X" : "O";
-            play = true;
+            play = false;
         }
     } while (play)
-}
-
-function pickSquare(name) { // Player picks square.  Confirm it's empty.  Update board object and place piece in square
-
 }
 
 function winner() { // Checks for winner
@@ -116,19 +117,27 @@ function testDiag() {
     return winner;
 }
 
-function pickSquare() {
-    code to prompt player to pick square.
+function pickSquare(piece) {
+    //  code to prompt player to pick square.
+    console.log('in pickSquare function');
     var mySquare = $('.square');
-    mySquare.on('click', function {
-        $(this).addClass('X');
+    console.log(piece);
+    mySquare.on('click', function() {
+        $(this).addClass(piece);
     })
 }
 
-function playButton(play) {
+function playAgain(player1) {
+    console.log('playAgain has been called');
     var display = $('#gameConsole');
-    display.animate({width: 200}, 5000);
-    $('h2').detach();
-    display.html('<h2>Play Again?</h2>');//need to find out why this is not displaying and how to delay when it does
+    display.animate({width: 200}, 5000, function() {
+        $('h2').text('Play Again');
+    });
+    display.on('click', function() {
+        playGame(player1);
+    });
+
+
     //display.html('<h2>Play again?</h2>');
     //    display.on('click', function() {
     //        display.animate({

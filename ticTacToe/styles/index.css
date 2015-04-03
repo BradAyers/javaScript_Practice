@@ -67,3 +67,15 @@ h1, h2, h3, h4 {
 .X {
     content: url("../images/letterX.gif");
 }
+
+.emptyTile { /* Used to clear contents of game board. X and O are below this so cascading does not effect them for play tiles */
+    content: "";
+}
+
+.O {
+    content: url("../images/letterO.gif");
+}
+
+.X {
+    content: url("../images/letterX.gif");
+}

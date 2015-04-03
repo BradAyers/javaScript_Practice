@@ -25,24 +25,25 @@
 
         <script>
             $( document).ready(function() {
-                var element = $('.square');
-                element.on('click', function() {
-                    if ($(this).hasClass('active')) {
-                        $(this).removeClass('active');
-                    }
-                    else {
-                        element.removeClass('active');
-                        $(this).addClass('active');
-                    }
-                })
+//                var element = $('.square');
+//                element.on('click', function() {
+//                    if ($(this).hasClass('active')) {
+//                        $(this).removeClass('active');
+//                    }
+//                    else {
+//                        element.removeClass('active');
+//                        $(this).addClass('active');
+//                    }
+//                })
                 // Initialize display box as "Start Game" button.
                 var display = $('#gameConsole');
                 display.html('<h2>Start Game</h2>');
                 display.on('click', function() {
                     display.animate({
-                        width: 475}, 500);
-                    playGame(player1)
-                    })
+                        width: 475}, 500, function() {
+                        playGame(player1)
+                    });
+                })
             })
         </script>
     </div>
