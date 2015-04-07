@@ -6,39 +6,51 @@
 
 //  1. Initialize ticTacToe object (board)
 var board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
-var player1 = "Brad";
-var player2 = "Denise";
-var currPlayer = player1;
 
-function playGame(firstPlayer) { // Executes game play activities
-    var currPlayer = firstPlayer;
+function playGame(player1, player2) { // Executes game play activities
+
+    //if (player1 === 'first') {
+    //    var player1 = prompt('Player1', 'Brad');
+    //    var player2 = prompt('Player2', 'Brad');
+    //    console.log(player1 + ' vs ' + player2);
+    //    display.animate({
+    //        width: 475}, 500, function() {
+    //        $('h2').text(player1 + '\'s move ... ');
+    //}
+
+    var currPlayer = player1;
     var piece = "X";
     var play = true;
     // Clear board for new game
     board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
     $('.square').addClass('emptyTile');
     $('.square').removeClass('active');
+    $('.square').removeClass('O'); // 'O' is below 'emptyTile' in CSS, so clear this too or else 'O' would remain
+    $('.square').removeClass('X'); // I added this because X was not being removed for new game
 
-    do {
-        pickSquare(piece);
-//        var row = prompt("Pick your row " + currPlayer);
-//        var col = prompt("Pick your column " + currPlayer);
-//        console.log(col);
-//        board[row][col] = piece;
-//        console.log(board[row]);
-        if (winner()) {
-            alert(piece + " wins the game! Congratulations " + currPlayer);
-            play = false;
-            playAgain(currPlayer);
+    // Start picking squares
+    var mySquare = $('.square');
+    mySquare.on('click', function(idx) {
+        var index = $(this).index();
+        if (squareOpen(index, piece)) {
+            $(this).addClass(piece);
+            if (winner()) {
+                alert(piece + " wins the game! Congratulations " + currPlayer);
+                // play = false;
+                playAgain(currPlayer);
+            }
+            else {
+                // Change player and piece for next pick
+                currPlayer = (currPlayer === player1) ? player2 : player1;
+                piece = (currPlayer === player1) ? "X" : "O";
+                play = false;
+                $('h2').text(currPlayer + '\'s move ... ');
+            }
         }
         else {
-//            alert("No winner yet " + currPlayer);
-            // Change player and piece for next pick
-            currPlayer = (currPlayer === "Brad") ? "Denise" : "Brad";
-            piece = (currPlayer === "Brad") ? "X" : "O";
-            play = false;
+            console.log('pickAgain');
         }
-    } while (play)
+    })
 }
 
 function winner() { // Checks for winner
@@ -117,34 +129,76 @@ function testDiag() {
     return winner;
 }
 
-function pickSquare(piece) {
-    //  code to prompt player to pick square.
-    console.log('in pickSquare function');
-    var mySquare = $('.square');
-    console.log(piece);
-    mySquare.on('click', function() {
-        $(this).addClass(piece);
-    })
+function squareOpen(idx, marker) {
+    var index = idx;
+    if ((idx - 6) >= 0) { // The square is in row3
+        index = idx - 6;
+        if (board['row3'][index] === idx) { // there is no X or O here
+            board['row3'][index] = marker;
+            console.log('row3 ' + index + " " + marker);
+            return true;
+        }
+    }
+    else if ((idx - 3) >= 0) { // The square is in row2
+        index = idx - 3;
+        if (board['row2'][index] === idx) { // there is no X or O here
+            board['row2'][index] = marker;
+            console.log('row2 ' + index + " " + marker);
+            return true;
+        }
+    }
+    else {  // The square is in row1
+        // this else statement is not recognizing the equality at the 0 index
+        console.log(index);
+        console.log(board['row1'][index]);
+        console.log(board['row1'][index] === idx);
+        if (board['row1'][index] === idx) { // there is no X or O here
+            board['row1'][index] = marker;
+            console.log('row1 ' + index + " " + marker);
+            return true;
+        }
+    }
+return false;
 }
 
-function playAgain(player1) {
-    console.log('playAgain has been called');
+
+
+    //
+    // This code below didn't seem to want to work.  It returned the correct vars index and idx, which would
+    // execute the 'if' loop when the equality was true.  However, the addClass part, that should add the correct
+    // piece to the board, would not work.  I'm creating a different approach and will ask Nate or Ben about this.
+    //
+
+    //do {   // Loop until player picks an empty square,
+    //    mySquare.on('click', function () {
+    //        var index = $(this).index();
+    //        $.each( board, function( row, arr ) {
+    //            arr.forEach(function(idx){
+    //                if (index == idx) {
+    //                    $(this).addClass(piece);
+    //                    var stop = false;
+    //                }
+    //                else {
+    //                    //console.log('Pick a different square');
+    //                }
+    //            })
+    //        })
+    //    })
+    //    var stop = false;
+    //} while(stop);
+
+function playAgain(winner) {
     var display = $('#gameConsole');
-    display.animate({width: 200}, 5000, function() {
-        $('h2').text('Play Again');
+    var loser = 'loser';
+    display.animate({width: 200}, 1500, function() {
+        $('h2').text('Play Again?');
     });
     display.on('click', function() {
-        playGame(player1);
+        display.animate({width: 475}, 1500, function() {
+            $('h2').text('You start ' + winner);
+        });
+        playGame(winner, loser);
     });
-
-
-    //display.html('<h2>Play again?</h2>');
-    //    display.on('click', function() {
-    //        display.animate({
-    //            width: 475}, 500);
-    //        display.h2.fadeOut('slow');
-    //    })
-    //})
 }
 
 

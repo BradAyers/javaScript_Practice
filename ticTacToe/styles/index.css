@@ -3,7 +3,7 @@ div#container {
 
 /* Display styling */
 div#gameConsole {
-    background: black;
+    background: gray;
     width: 200px;
     height: 30px;
     margin: 30px auto;
@@ -56,16 +56,8 @@ h1, h2, h3, h4 {
     content: url("../images/letterI.gif");
 }
 
-.O {
-    content: url("../images/letterO.gif");
-}
-
 .T {
     content: url("../images/letterT.gif");
-}
-
-.X {
-    content: url("../images/letterX.gif");
 }
 
 .emptyTile { /* Used to clear contents of game board. X and O are below this so cascading does not effect them for play tiles */
