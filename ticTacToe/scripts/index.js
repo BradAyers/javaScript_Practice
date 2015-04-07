@@ -6,17 +6,9 @@
 
 //  1. Initialize ticTacToe object (board)
 var board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
+var player1, player2;
 
 function playGame(player1, player2) { // Executes game play activities
-
-    //if (player1 === 'first') {
-    //    var player1 = prompt('Player1', 'Brad');
-    //    var player2 = prompt('Player2', 'Brad');
-    //    console.log(player1 + ' vs ' + player2);
-    //    display.animate({
-    //        width: 475}, 500, function() {
-    //        $('h2').text(player1 + '\'s move ... ');
-    //}
 
     var currPlayer = player1;
     var piece = "X";
@@ -189,19 +181,34 @@ return false;
 
 function playAgain(winner) {
     var display = $('#gameConsole');
-    var loser = 'loser';
+    player1 = winner;
     display.animate({width: 200}, 1500, function() {
         $('h2').text('Play Again?');
     });
-    display.on('click', function() {
-        display.animate({width: 475}, 1500, function() {
-            $('h2').text('You start ' + winner);
-        });
-        playGame(winner, loser);
-    });
 }
 
+$( document).ready(function() {
+    // Initialize display box as "Start Game" button.
+    var display = $('#gameConsole');
 
+
+    display.html('<h2>Start Game</h2>');
+    display.on('click', function() {
+        var timer = 1500;
+        if(!player1 || !player2){
+            player1 = prompt('Player1', 'Enter Player One Name');
+            player2 = prompt('Player2', 'Enter Player Two Name');
+            timer = 500;
+        }
+
+        console.log(player1 + ' vs ' + player2);
+        display.animate({
+            width: 475}, timer, function() {
+            $('h2').text(player1 + '\'s move ... ');
+            playGame(player1, player2);
+        });
+    })
+})
 //  1. Who starts? User starts first time, winner starts first after that until game is exited
 //  2. player1 picks (call compPick function if it is computer pick)
 //  3. call winner function to see if there is a winner yet
