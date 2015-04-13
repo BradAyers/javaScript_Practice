@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" href="styles/index.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>-->
+    <script src="scripts/lodash.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="scripts/index.js"></script>
 </head>
@@ -12,36 +13,16 @@
     <div id="container">
         <div id="gameConsole"></div>
         <div id="gameBoard">
-            <div class="square active T"></div>
+            <div class="square active T1"></div>
             <div class="square I"></div>
-            <div class="square C"></div>
-            <div class="square active T"></div>
+            <div class="square C1"></div>
+            <div class="square active T2"></div>
             <div class="square A"></div>
-            <div class="square C"></div>
-            <div class="square active T"></div>
-            <div class="square O"></div>
+            <div class="square C2"></div>
+            <div class="square active T3"></div>
+            <div class="square O O1"></div>  <!-- The "O1" class is included here to facilitate activating the winner -->
             <div class="square E"></div>
         </div>
-
-        <!--<script>-->
-            <!--$( document).ready(function() {-->
-                <!--// Initialize display box as "Start Game" button.-->
-                <!--var display = $('#gameConsole');-->
-                <!--var player1, player2;-->
-
-                <!--display.html('<h2>Start Game</h2>');-->
-                <!--display.on('click', function() {-->
-                    <!--player1 = player1 || prompt('Player1', 'Enter Player One Name');-->
-                    <!--player2 = player2 || prompt('Player2', 'Enter Player Two Name');-->
-                    <!--console.log(player1 + ' vs ' + player2);-->
-                    <!--display.animate({-->
-                        <!--width: 475}, 500, function() {-->
-                        <!--$('h2').text(player1 + '\'s move ... ');-->
-                        <!--playGame(player1, player2);-->
-                    <!--});-->
-                <!--})-->
-            <!--})-->
-        <!--</script>-->
     </div>
 </body>
 </html>

@@ -44,7 +44,12 @@ h1, h2, h3, h4 {
     content: url("../images/letterA.gif");
 }
 
-.C {
+/* TWO C'S BELOW TO HANDLE HILIGHTING OF WINNING HANDS */
+.C1 {
+    content: url("../images/letterC.gif");
+}
+
+.C2 {
     content: url("../images/letterC.gif");
 }
 
@@ -56,7 +61,16 @@ h1, h2, h3, h4 {
     content: url("../images/letterI.gif");
 }
 
-.T {
+/* THREE T'S BELOW TO HANDLE HILIGHTING OF WINNING HANDS */
+.T1 {
+    content: url("../images/letterT.gif");
+}
+
+.T2 {
+    content: url("../images/letterT.gif");
+}
+
+.T3 {
     content: url("../images/letterT.gif");
 }
 

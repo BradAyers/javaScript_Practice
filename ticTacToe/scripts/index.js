@@ -6,6 +6,12 @@
 
 //  1. Initialize ticTacToe object (board)
 var board = {row1: [0, 1, 2], row2: [3, 4, 5], row3: [6, 7, 8]};
+
+var hilite = {    // THIS IS GLOBAL FOR NOW FOR TESTING. MAY REMOVE IT LATER ONCE ALL IS WORKING
+    1: ['T1', 'I', 'C1'], 2: ['T2', 'A', 'C2'], 3: ['T3', 'O', 'E'], 4: ['T1', 'T2', 'T3'], 5: ['I', 'A', 'O']
+    , 6: ['C1', 'C2', 'E'], 7: ['T1', 'A', 'E'], 8: ['C1', 'A', 'T3']
+};
+
 var player1, player2;
 
 function playGame(player1, player2) { // Executes game play activities
@@ -19,6 +25,11 @@ function playGame(player1, player2) { // Executes game play activities
     $('.square').removeClass('active');
     $('.square').removeClass('O'); // 'O' is below 'emptyTile' in CSS, so clear this too or else 'O' would remain
     $('.square').removeClass('X'); // I added this because X was not being removed for new game
+    $.each(hilite,function(tileGroup, arr) {
+        arr.forEach(function(idx) {
+            $(this).removeClass('.active');
+        })
+    })
 
     // Start picking squares
     var mySquare = $('.square');
@@ -27,7 +38,8 @@ function playGame(player1, player2) { // Executes game play activities
         if (squareOpen(index, piece)) {
             $(this).addClass(piece);
             if (winner()) {
-                alert(piece + " wins the game! Congratulations " + currPlayer);
+                hiliteWinner(winner()[1]); // Pass the position of the winning row to be highlighted
+                $('h2').text("Good game " + currPlayer + "! " + piece + " wins!")
                 // play = false;
                 playAgain(currPlayer);
             }
@@ -39,13 +51,10 @@ function playGame(player1, player2) { // Executes game play activities
                 $('h2').text(currPlayer + '\'s move ... ');
             }
         }
-        else {
-            console.log('pickAgain');
-        }
     })
 }
 
-function winner() { // Checks for winner
+function winner() { // Checks for winner. Will return true or false for winner, plus winning position for hi-lighting
     if (testHor()) {return (testHor())}
     if (testVert()) {return (testVert())}
     if (testDiag()) {return (testDiag())}
@@ -53,22 +62,20 @@ function winner() { // Checks for winner
 }
 
 
-// FUNCTION TO TEST HORIZONTAL ROWS FOR A WINNER (MOSTLY TESTED, OTHER THAN RETURN)
+// FUNCTION TO TEST HORIZONTAL ROWS FOR A WINNER
 function testHor() {
     // Define winners
+    var xWins = ['X', 'X', 'X'];
+    var yWins = ['O', 'O', 'O'];
     for (row = 1; row < 4; row++) {
-        // var winner =_.isEqual(board.row[row], xWins) || board.row[row].isEqual(yWins);
-        var winner = false; // remove after testing and reactivate line above that is currently commented out for testing
+        var thisRow = "row" + row;
+        var winner =_.isEqual(board[thisRow], xWins) || _.isEqual(board[thisRow], yWins);
         if (winner) {
-            //return board.row[row][0]; // WE HAVE A WINNER. RETURN X OR O SO WE KNOW WHO WON.  ### MAY NEED TO TWEAK ###
+            //return winner;
+            return [true, row];
         }
     }
-    // ALTERNATE CODE FOR ARRAY EQUALITY COMPARISON IF I DIDN'T USE isEqual METHOD FROM THE UNDERSCORE LIBRARY
-    // function equalArrays(arr1, arr2) {
-    //    for (i = 0; i < arr1.length; i++) {
-    //        if (arr1[i] === arr2[i]) return true;
-    //    }
-    return false; // change false to winner when implemented in HTML
+    return false;
 }
 
 // FUNCTION TO TEST VERTICAL ROWS FOR A WINNER (TESTED AND WORKING)
@@ -80,29 +87,30 @@ function testVert() {
             var thisRow = "row" + xRow;
             winner = board[thisRow][idx] === "X" ? true : false; // testing for X winner
         }
-        if (winner === true){return winner};
+        if (winner === true){return [true, idx + 4]};
         winner = true;
         for (row = 1; (row < 4) && (winner === true); row++) {
             var thisRow = "row" + row;
             winner = board[thisRow][idx] === "O" ? true : false; // testing for O winner
         }
-        if (winner === true){return winner};
+        if (winner === true){return [true, idx + 4]};
     }
     return winner;
 }
 
 // FUNCTION TO TEST DIAGONAL ROWS FOR A WINNER (TESTED AND WORKING)
 function testDiag() {
-    var winner = true;
+    var winner;
     var gamePiece = "X"; // TEST FOR X WINNER FIRST
     for (i = 1; i < 3; i++) { // LOOPS TWICE TO CHECK FOR X WINNER, THEN O WINNER
+        winner = true;
         for (row = 1; (row < 4) && (winner === true); row++) {
             var thisRow = "row" + row;
             var idx = row - 1;
             winner = board[thisRow][idx] === gamePiece ? true : false;
         }
         if (winner === true) {
-            return winner; // gamePiece
+            return [true, 7];
         }
 
         var idx = 3;
@@ -113,21 +121,19 @@ function testDiag() {
             winner = board[thisRow][idx] === gamePiece ? true : false;
         }
         if (winner === true) {
-            return winner; // gamePiece
+            return [true, 8]; // gamePiece
         }
-        ;
         gamePiece = "O"; // NOW LOOP AGAIN TO TEST FOR O WINNER
     }
     return winner;
 }
 
-function squareOpen(idx, marker) {
+function squareOpen(idx, marker) {  // THIS FUNCTION CHECKS TO CONFIRM THAT THE SQUARE PLAYED IS OPEN
     var index = idx;
     if ((idx - 6) >= 0) { // The square is in row3
         index = idx - 6;
         if (board['row3'][index] === idx) { // there is no X or O here
             board['row3'][index] = marker;
-            console.log('row3 ' + index + " " + marker);
             return true;
         }
     }
@@ -135,18 +141,12 @@ function squareOpen(idx, marker) {
         index = idx - 3;
         if (board['row2'][index] === idx) { // there is no X or O here
             board['row2'][index] = marker;
-            console.log('row2 ' + index + " " + marker);
             return true;
         }
     }
     else {  // The square is in row1
-        // this else statement is not recognizing the equality at the 0 index
-        console.log(index);
-        console.log(board['row1'][index]);
-        console.log(board['row1'][index] === idx);
         if (board['row1'][index] === idx) { // there is no X or O here
             board['row1'][index] = marker;
-            console.log('row1 ' + index + " " + marker);
             return true;
         }
     }
@@ -178,11 +178,20 @@ return false;
     //    })
     //    var stop = false;
     //} while(stop);
+function hiliteWinner(winningRow) {
+    var hilite = {    // THIS OBJECT CONTAINS ARRAYS OF THE WINNING CLASSES TO BE ACTIVATED
+        1: ['T1', 'I', 'C1'], 2: ['T2', 'A', 'C2'], 3: ['T3', 'O1', 'E'], 4: ['T1', 'T2', 'T3'], 5: ['I', 'A', 'O1']
+        , 6: ['C1', 'C2', 'E'], 7: ['T1', 'A', 'E'], 8: ['C1', 'A', 'T3']
+    };
+    for (i = 0; i < 3; i++) {
+        $('.' + hilite[winningRow][i]).addClass('active');
+    }
+}
 
 function playAgain(winner) {
     var display = $('#gameConsole');
     player1 = winner;
-    display.animate({width: 200}, 1500, function() {
+    display.animate({width: 200}, 4500, function() {
         $('h2').text('Play Again?');
     });
 }
@@ -190,25 +199,29 @@ function playAgain(winner) {
 $( document).ready(function() {
     // Initialize display box as "Start Game" button.
     var display = $('#gameConsole');
-
-
     display.html('<h2>Start Game</h2>');
     display.on('click', function() {
         var timer = 1500;
         if(!player1 || !player2){
             player1 = prompt('Player1', 'Enter Player One Name');
+            //$('h2').text('Please Enter Player One Name');
+            //$('h2').text('Please Enter Player Two Name');
             player2 = prompt('Player2', 'Enter Player Two Name');
             timer = 500;
         }
-
-        console.log(player1 + ' vs ' + player2);
         display.animate({
             width: 475}, timer, function() {
             $('h2').text(player1 + '\'s move ... ');
+            //display.html('<form><input type = "text" name = "player1" placeholder = "Enter Player One Name" id = "player1" /></form>');
+            //player1 = document.getElementById("player1");
+            //$('h2').text('Enter Player One Name');
             playGame(player1, player2);
         });
     })
 })
+
+//    ####### MY INITIAL LOGIC BELOW ON HOW TO BEGIN ORGANIZING MY PROGRAMMING INTO STEPS #######
+//
 //  1. Who starts? User starts first time, winner starts first after that until game is exited
 //  2. player1 picks (call compPick function if it is computer pick)
 //  3. call winner function to see if there is a winner yet
